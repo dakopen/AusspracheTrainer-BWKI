@@ -11,4 +11,9 @@ Diese Funktion war der Kern der mathematischen Funktionen: Er gab mehrere Zahlen
 ### Auswertungsfunktion2:
 Wie man dem Namen entnehmen kann, war dies der zweite Anlauf auf das gleiche, in der Einleitung beschriebene Problem zu bewältigen. Der Code funktionierte zwar recht stabil, wird nun aber um weiten verbessert, indem er durch die perfekte Funktion substituiert wurde. 
 
+### AuswertungAlsFunktion:
+Diese Funktion wurde auch überflüssig. Teile davon sind in die jetzige Auswertung eingeflossen.
+
+
 ### Bitte nehmen Sie zur Kenntnis, dass der Code aus Zeitgründen nicht schön formatiert wurde; er dient lediglich für einen groben Überblick übere unsere bisherige Mühen
+
