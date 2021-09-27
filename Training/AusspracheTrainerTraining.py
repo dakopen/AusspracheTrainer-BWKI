@@ -321,7 +321,7 @@ def data_processing(data, data_type="train"):
         spec = train_audio_transforms(waveform).squeeze(0).transpose(0, 1)
 
         spectrograms.append(spec)
-        label = torch.Tensor(text_transform.text_to_int(dictionary["sentence"]))  ##.lower()))
+        label = torch.Tensor(text_transform.text_to_int(dictionary["sentence"]))
         labels.append(label)
         input_lengths.append(spec.shape[0] // 2)
         label_lengths.append(len(label))
@@ -499,7 +499,7 @@ def train(model, device, train_loader, criterion, optimizer, scheduler, epoch, i
                     print('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}'.format(
                         epoch, batch_idx * len(spectrograms), data_len,
                                100. * batch_idx / len(train_loader), loss.item()))
-                if batch_idx % 10000 == 0:  ##
+                if batch_idx % 10000 == 0:
                     checkpoint = {
                         'epoch': epoch,
                         'state_dict': model.state_dict(),
@@ -557,12 +557,12 @@ def test(model, device, test_loader, criterion, epoch, iter_meter, experiment):
 
 
 # [EDIT START]
-def save_ckp(state):  ##
+def save_ckp(state):
     f_path = r'D:\checkpoints\40checkpoint1.pt'
     torch.save(state, f_path)
 
 
-def load_ckp(model, optimizer, scheduler):  ##
+def load_ckp(model, optimizer, scheduler):
     checkpoint = torch.load(r'D:\checkpoints\40checkpoint1.pt')
     model.load_state_dict(checkpoint['state_dict'])
     optimizer.load_state_dict(checkpoint['optimizer'])
@@ -603,7 +603,7 @@ def main(learning_rate=5e-4, batch_size=2, epochs=10,
     test_dataset = torchaudio.datasets.COMMONVOICE(root="D:\\cv-corpus", tsv="test.tsv")
     train_dataset = torchaudio.datasets.COMMONVOICE(root="D:\\cv-corpus", tsv="train.tsv")
 
-    kwargs = {'num_workers': 0, 'pin_memory': True} if use_cuda else {}  ##num_workers: 1
+    kwargs = {'num_workers': 0, 'pin_memory': True} if use_cuda else {}
     train_loader = data.DataLoader(dataset=train_dataset,
                                    batch_size=hparams['batch_size'],
                                    shuffle=True,  # Leider beim Trainieren der KI damals vergessen True zu machen
