@@ -16,3 +16,9 @@ Anschließend muss der zugehörige Satz einer Audio in Lautschrift (IPA) umgefor
 ### Audio
 Die Audios sind im `.mp3` Format mit einer Sample-Rate von 48 kHz verfügbar. Dieses Format lässt sich leider nicht mit bestehenden Libraries kombinieren, daher haben wir die Audios normalisiert und ins `.wav` Format übertragen. Funktionen dafür finden Sie hier `sound-anpassen.py`. Auch wenn alle Audios auf eine bestimmte Lautstärke normalisiert wurden muss dies nicht mit Trainingsaudios passieren. Also ist eine Installation von ffmpeg nicht zwangsläufig notwendig.
 
+## Hardware und über das Modell
+Das Trainieren hat sehr viel Rechenleistung beansprucht. Auf unserer Nvidia 2070 Super haben 10 Epochs ca. 60 Stunden beansprucht. 
+
+Wir haben 2 Modelle trainiert - mit 10 und mit 40 Epochs. Letzteres (welches hier zum Einsatz kommt) erbrachte ca. 15-20% bessere Ergebnisse im Test. Das Modell belegt 556 MB Speicherplatz und hat 23 725 893 Parameter.
+
+Mit mehr Rechenleistung würden wir nicht die Epochs erhöhen, sondern mehr Features in Pytorch erlernen.
