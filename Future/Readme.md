@@ -20,4 +20,4 @@ Die Lautschrift der Schnittschnelle des DWDS wird von der Open-Source Software [
 * keine Begrenzung der Wortlänge
 * __Nachvollziehbarkeit, welcher Buchstabe des deutschen Alphabets zu welchem der Lautschrift gehören__
 
-Durch den letzten Punkt kann die Auswertung auch im deutschen Alphabet ausgegeben werden, sodass Nutzer*innen, die nicht mit der Lautschrift bewandert sind, das Ergebnis trotzdem schnell und sicher verstehen. Dieses Feature können sie [hier](https://kaskade.dwds.de/~kmw/gramophone.py?q=modern#:~:text=Segmented%20Transcription,n%2Cn%20%3A%2013.095) sich angucken, beim Beispielwort "modern".  *Auf der Anwendungswebseite ist nur eine Aussprache des Homographs zu sehen.*
+Durch den letzten Punkt kann die Auswertung auch im deutschen Alphabet ausgegeben werden, sodass Nutzer*innen, die nicht mit der Lautschrift bewandert sind, das Ergebnis trotzdem schnell und sicher verstehen. Dieses Feature können sie [hier](https://kaskade.dwds.de/~kmw/gramophone.py?q=modern#:~:text=Segmented%20Transcription,n%2Cn%20%3A%2013.095) sich angucken, beim Beispielwort "modern".  *Auf der Anwendungswebseite ist nur eine mögliche Aussprache des Homographs zu sehen.*
