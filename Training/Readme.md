@@ -22,3 +22,5 @@ Das Trainieren hat sehr viel Rechenleistung beansprucht. Auf unserer Nvidia 2070
 Wir haben 2 Modelle trainiert - mit 10 und mit 40 Epochs. Letzteres (welches hier zum Einsatz kommt) erbrachte ca. 15-20% bessere Ergebnisse im Test. Das Modell belegt 556 MB Speicherplatz und hat 23 725 893 Parameter.
 
 Mit mehr Rechenleistung würden wir nicht die Epochs erhöhen, sondern mehr Features in Pytorch erlernen.
+
+## Bitte beachten Sie, dass manche Funktionen ausschließlich dem Zwecke des FUNKTIONierens hatten und wir und unsere Programmierkenntnisse sich massiv verbessert haben
