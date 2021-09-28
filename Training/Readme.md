@@ -23,4 +23,4 @@ Wir haben 2 Modelle trainiert - mit 10 und mit 40 Epochs. Letzteres (welches hie
 
 Mit mehr Rechenleistung würden wir nicht die Epochs erhöhen, sondern mehr Features in Pytorch erlernen.
 
-### Bitte beachten Sie, dass manche Funktionen ausschließlich dem Zwecke des FUNKTIONierens hatten und wir und unsere Programmierkenntnisse sich massiv verbessert haben
+### Bitte beachten Sie, dass manche Funktionen ausschließlich dem Zwecke des FUNKTIONierens dienten und unsere Programmierkenntnisse sich über die Zeit massiv verbesserten
