@@ -182,7 +182,7 @@ def auswertung(target, predictions):
         print(bewertung_des_scores + "grundsätzlich unverständlich | Score:", overall_score)
 
     if overall_score < 0.7:
-        print("Wir empfehlen dringend Übungen zur verbesserten Aussprache zu machen.")
+        print("Wir empfehlen dringend Übungen zur Verbesserung der Aussprache zu machen.")
     if overall_score < 0.55:
         print("Außerdem könnte eine logopädische Praxis Dir bei diesem Thema behilflich sein.")
 
