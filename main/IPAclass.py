@@ -11,7 +11,7 @@ class IPA:
     def IPA_dict_laden():
         """Lädt das IPA_dict. Sollte das Programm zum ersten Mal laufen ist es natürlich noch nicht vorhanden."""
         try:
-            with open(r"./IPA_dict4.pickle", "rb") as IPA_dict_speicherort:
+            with open(r"./IPA_dict.pickle", "rb") as IPA_dict_speicherort:
                 IPA_dict = pickle.load(IPA_dict_speicherort)
             logging.info("IPA_dict geladen.")
         except:
@@ -21,12 +21,12 @@ class IPA:
     @staticmethod
     def IPA_dict_speichern(IPA_dict):
         """Speichert das IPA_dict, welches Wörter und IPA beinhaltet, damit jene nicht erneut abgefragt werden."""
-        with open(r"./IPA_dict4.pickle", "wb") as IPA_dict_speicherort:
+        with open(r"./IPA_dict.pickle", "wb") as IPA_dict_speicherort:
             pickle.dump(IPA_dict, IPA_dict_speicherort)
         logging.info("IPA_dict gespeichert.")
 
     @staticmethod
-    def send_to_dwds(wort, retry=0):  # DEPRECATED
+    def send_to_dwds(wort, retry=0):  # Deprecated
         """Nutzt die API des DWDS, um Wörter in Lautschrift (IPA) zu übertragen. Gelegentlich kommt es zu Netzwerk-
         schwankungen, daher die retry-Funktion."""
         IPA = []
@@ -149,7 +149,7 @@ class IPA:
         x = "".join(str(e) for e in wortbruch_array)
         return x
 
-    def text_zu_IPA(self, textliste):
+    def text_zu_IPA(self, textliste, IPA_dict_appenden=True):
         """Wort für Wort von Klartext zur IPA (phonetisches Alphabet)
         Input = ['Liste', 'mit', 'strings'], Output = ['ˈlɪstə', 'mɪt', 'strɪŋs']"""
         IPA_satz = []
@@ -157,45 +157,47 @@ class IPA:
             # Zahlen zu Text umformen, da Google sonst Zahlen in der Prediction ausgibt
             textliste = IPA.zahl_zu_text_sortieren(textliste)
             for wort in textliste:
-                if len(wort) > 20:
-                    ipa_wort20 = IPA.wort_split20(self, wort)
-                    IPA_satz.append(ipa_wort20)
+                if len(wort) > 25:
+                    ipa_wort25 = IPA.wort_split25(self, wort)
+                    IPA_satz.append(ipa_wort25)
                     continue
                 if wort == "":
                     IPA_satz.append("")
                     continue
                 if wort in self.IPA_dict.keys():
-                    IPA_satz.append(self.IPA_dict[wort])
+                    IPA_satz.append(self.IPA_dict[wort][0])
                 else:
-                    IPA_satz.append(IPA.send_to_dwds(wort=wort))
+                    ipawort, zuordnung = IPA.send_to_gramophone(wort=wort)
+                    IPA_satz.append(ipawort)
                     # Erweiterung des Dictionary, damit später das gleiche Wort nicht mehr abgefragt werden muss
-                    self.IPA_dict[wort] = IPA_satz[-1]
-                    IPA.IPA_dict_speichern(self.IPA_dict)
+                    if IPA_dict_appenden:
+                        self.IPA_dict[wort] = ipawort, zuordnung
+                        IPA.IPA_dict_speichern(self.IPA_dict)
             return IPA_satz
         else:
             raise Exception("Bitte eine Liste eingeben")
 
-    def wort_split20(self, wort):
-        """Falls ein Wort länger als 20 Buchstaben ist (DWDS-API Begrenzung), wird er hier gesplittet und
-        anschließend zusammengeführt. Wichtig ist dabei, dass eine Überschneidung (von hier 10) Buchstaben herrscht,
+    def wort_split25(self, wort):
+        """Falls ein Wort länger als 25 Buchstaben ist (Gramophone-API Begrenzung), wird er hier gesplittet und
+        anschließend zusammengeführt. Wichtig ist dabei, dass eine Überschneidung (von hier 5) Buchstaben herrscht,
         damit die Wörter wieder korrekt zusammengeführt werden. Denn bei abstrahiert betrachtet:
         SchulE [SPLIT] und SchulERFAHRUNG wird das E, obwohl es alphabetisch der selbe Buchstabe ist,
         unterschiedlich ausgesprochen. Lösung: SchulERFAHR [SPLIT] und ulERFAHRUNG, Das Schul wird vom ersten übernommen
         und das Erfahrung vom zweiten Wort."""
         wortlaenge = len(wort)
-        if wortlaenge < 30:
-            erster_teil = wort[:20]
-            zweiter_teil = wort[-20:]
-            teile_zu_ipa = IPA.text_zu_IPA(self, [erster_teil, zweiter_teil])
+        if wortlaenge < 40:
+            erster_teil = wort[:25]
+            zweiter_teil = wort[-25:]
+            teile_zu_ipa, _ = IPA.text_zu_IPA(self, [erster_teil, zweiter_teil], IPA_dict_appenden=False)
             longest_match = IPA.longest_substring(teile_zu_ipa[0], teile_zu_ipa[1])
             return teile_zu_ipa[0][:longest_match.a] + teile_zu_ipa[1][longest_match.b:]
         else:
-            raise Exception("Zurzeit sind Wörter mit einer Länge von über dreißig (30) Buchstaben nicht erlaubt. "
+            raise Exception("Zurzeit sind Wörter mit einer Länge von über vierzig (40) Buchstaben nicht erlaubt. "
                             "Das liegt an einer externen API.")
 
     # Quelle: https://stackoverflow.com/questions/18715688/find-common-substring-between-two-strings
     @staticmethod
     def longest_substring(string1, string2):
-        """Matched die Überschneidung für wort_split20"""
+        """Matched die Überschneidung für wort_split25"""
         match = SequenceMatcher(None, string1, string2).find_longest_match(0, len(string1), 0, len(string2))
         return match
