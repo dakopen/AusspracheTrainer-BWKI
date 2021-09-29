@@ -57,7 +57,6 @@ def chars_zu_viel(prediction):
     d = ([m.start() for m in re.finditer('\\033\[91m'.encode("utf-8").decode("utf-8"), prediction)])  # FAIL
 
     char_zuordnung = {}
-
     for key in b:
         char_zuordnung[key] = "b"
     for key in c:
@@ -66,13 +65,13 @@ def chars_zu_viel(prediction):
         char_zuordnung[key] = "d"
     for i, (key, char) in enumerate(sorted(char_zuordnung.items())):
         if char == "d":
-            start_at = key + 5
+
+            start_at = key + 5  # length of FAIL Sequence (\\033\[91m)
             stop_at = a[i]
             chars = prediction[start_at:stop_at]
             chars = [i for i in chars if i != "_"]
             score = (len(chars) / len_sequence) / 3  # Da es 3 Predictions gibt, sonst wäre zu viel Minus
             minus_score += score
-
     return minus_score
 
 
@@ -85,10 +84,11 @@ def sprachfehler_analysieren(char_scores, target):
         if target[index] in Sprachfehler.SIGMATISMUS.keys():
             sigmatismus_anzahl += 1
             sigmatismus_score += score
+
     return sigmatismus_score / sigmatismus_anzahl  # Durchschnitt ausgeben
 
 
-def auswertung(target, predictions):
+def auswertung(target, predictions, ipa_zuordnungen):
     """Vergleicht den Targetsatz mit den 3 Predictions. Je nach Qualität der Aussprache wird der Satz in folgenden
     Farben wieder ausgegeben:
     Grün (perfekt), Lila (leicht unverständlich), Gelb (unverständlich), Rot (sehr unverständlich)
@@ -97,6 +97,7 @@ def auswertung(target, predictions):
     _, target_output, prediction_output = einzelvergleich(target, predictions[0])
     _, target_output2, prediction_output2 = einzelvergleich(target, predictions[1])
     _, target_output3, prediction_output3 = einzelvergleich(target, predictions[2])
+    prediction_output3 = "".join([i for i in prediction_output3 if i not in ["ˈ", "ˌ"]])
 
     char_scores = {}
     for c, char in enumerate(target):
@@ -120,7 +121,22 @@ def auswertung(target, predictions):
         if target[index] == " ":
             char_scores[index] = 1
 
+    klartext_char_scores, klartext_target = ipa_zuordnen(ipa_zuordnungen, char_scores)
     final_output = ""
+    for index, score in klartext_char_scores.items():
+        if score <= 0.25:  # durch Decimalverhalten ohne das Decimal Package wird 0.10 zu 0.09999999999999998
+            final_output += bcolors.FAIL
+        elif score <= 0.5:
+            final_output += bcolors.WARNING
+        elif score <= 0.75:
+            final_output += bcolors.INACCURACY
+        else:
+            final_output += bcolors.OKGREEN
+        final_output += klartext_target[index]
+        final_output += bcolors.ENDC
+
+    # Vorher: Analyse basierend auf der Lautschrift. Entkommentieren, wenn man Lautschrift gut lesen kann
+    r'''final_output = ""
     for index, score in char_scores.items():
         if score <= 0.1:  # durch Decimalverhalten ohne das Decimal Package wird 0.10 zu 0.09999999999999998
             final_output += bcolors.FAIL
@@ -131,13 +147,14 @@ def auswertung(target, predictions):
         else:
             final_output += bcolors.OKGREEN
         final_output += target[index]
-        final_output += bcolors.ENDC
+        final_output += bcolors.ENDC'''
 
     overall_score = sum(char_scores.values()) / len(char_scores)
     print()
     print(bcolors.BOLD + "Auswertung" + bcolors.ENDC)
 
     print(final_output)
+    print()
     overall_score -= (chars_zu_viel(prediction_output) + chars_zu_viel(prediction_output2) + chars_zu_viel(
         prediction_output3))
     sigmatismus = sprachfehler_analysieren(char_scores, target)
@@ -145,11 +162,11 @@ def auswertung(target, predictions):
     # overall_score * 0.9, da dadurch ein Muster bestätigt wird und nicht zu oft falsch-positiv diese Auswertung kommt.
     if overall_score * 0.9 > sigmatismus and 0.6 <= sigmatismus <= 0.9:
         print(f"{bcolors.WARNING}Überdurchschnittlich ungenaue Aussprache der Zischlaute "
-              f"(Lispeln = {list(Sprachfehler.SIGMATISMUS.keys())}). {bcolors.ENDC}")
+              f"(Lispeln = {list(Sprachfehler.SIGMATISMUS.keys())}  bzw. ['sch', 's', 'ch']). {bcolors.ENDC}")
     elif sigmatismus < 0.6:
         print(f"{bcolors.FAIL}Auffällig ungenaue Aussprache der Zischlaute "
-              f"(Lispeln = {list(Sprachfehler.SIGMATISMUS.keys())}).{bcolors.ENDC}")
-    # print("Sigmatismus-Score:", sigmatismus), anschalten, wenn man den sigmatismus-score sich angucken möchte
+              f"(Lispeln = {list(Sprachfehler.SIGMATISMUS.keys())} bzw. ['sch', 's', 'ch']).{bcolors.ENDC}")
+    # print("Sigmatismus-Score:", sigmatismus), entkommentieren, wenn man den sigmatismus-score sich angucken möchte
 
     bewertung_des_scores = "Deine Aussprache ist "
     if overall_score > 0.95:
@@ -186,3 +203,22 @@ def auswertung(target, predictions):
     if overall_score < 0.55:
         print("Außerdem könnte eine logopädische Praxis Dir bei diesem Thema behilflich sein.")
 
+
+def ipa_zuordnen(zuordnungen, char_scores):
+    """IPA wird in Klartext zurück umgeformt, allerdings werden die vorher für
+    die Lautschrift errechneten Werte einbezogen.
+    Input: Zuordnungsliste, Char_scores
+    Output: Neue Char_scores für das Klartext_target (da andere Indexe), Klartext_target"""
+    buchstaben_counter = 0
+    new_char_scores = {}
+    ipa_buchstaben_counter = 0
+    for buchstabenpaar in zuordnungen:
+        klartext = buchstabenpaar[0]
+        ipa = buchstabenpaar[1]
+        durchschitt = sum([char_scores[i+buchstaben_counter] for i in range(len(ipa))])/len(ipa)
+        buchstaben_counter += len(ipa)
+        for x in range(len(klartext)):
+            new_char_scores[ipa_buchstaben_counter] = durchschitt
+            ipa_buchstaben_counter += 1
+    klartext_target = "".join([i[0] for i in zuordnungen])
+    return new_char_scores, klartext_target
