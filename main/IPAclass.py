@@ -157,7 +157,6 @@ class IPA:
             # Zahlen zu Text umformen, da Google sonst Zahlen in der Prediction ausgibt
             textliste = IPA.zahl_zu_text_sortieren(textliste)
             for wort in textliste:
-                print(wort)
                 if len(wort) > 25:
                     ipa_wort25 = IPA.wort_split25(self, wort)
                     IPA_satz.append(ipa_wort25)
@@ -170,7 +169,6 @@ class IPA:
                 else:
                     ipawort, zuordnung = IPA.send_to_gramophone(wort=wort)
                     IPA_satz.append(ipawort)
-                    print(IPA_satz)
                     # Erweiterung des Dictionary, damit später das gleiche Wort nicht mehr abgefragt werden muss
                     if IPA_dict_appenden:
                         self.IPA_dict[wort] = ipawort, zuordnung
@@ -191,7 +189,6 @@ class IPA:
             erster_teil = wort[:25]
             zweiter_teil = wort[-25:]
             teile_zu_ipa = IPA.text_zu_IPA(self, [erster_teil, zweiter_teil], IPA_dict_appenden=False)
-            print(teile_zu_ipa)
             longest_match = IPA.longest_substring(teile_zu_ipa[0], teile_zu_ipa[1])
             return teile_zu_ipa[0][:longest_match.a] + teile_zu_ipa[1][longest_match.b:]
         else:
