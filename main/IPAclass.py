@@ -11,7 +11,7 @@ class IPA:
     def IPA_dict_laden():
         """Lädt das IPA_dict. Sollte das Programm zum ersten Mal laufen ist es natürlich noch nicht vorhanden."""
         try:
-            with open(r"./IPA_dict.pickle", "rb") as IPA_dict_speicherort:
+            with open(r"./IPA_dict4.pickle", "rb") as IPA_dict_speicherort:
                 IPA_dict = pickle.load(IPA_dict_speicherort)
             logging.info("IPA_dict geladen.")
         except:
@@ -21,12 +21,12 @@ class IPA:
     @staticmethod
     def IPA_dict_speichern(IPA_dict):
         """Speichert das IPA_dict, welches Wörter und IPA beinhaltet, damit jene nicht erneut abgefragt werden."""
-        with open(r"./IPA_dict.pickle", "wb") as IPA_dict_speicherort:
+        with open(r"./IPA_dict4.pickle", "wb") as IPA_dict_speicherort:
             pickle.dump(IPA_dict, IPA_dict_speicherort)
         logging.info("IPA_dict gespeichert.")
 
     @staticmethod
-    def send_to_dwds(wort, retry=0):
+    def send_to_dwds(wort, retry=0):  # DEPRECATED
         """Nutzt die API des DWDS, um Wörter in Lautschrift (IPA) zu übertragen. Gelegentlich kommt es zu Netzwerk-
         schwankungen, daher die retry-Funktion."""
         IPA = []
@@ -41,6 +41,46 @@ class IPA:
         else:
             if retry < 5:
                 IPA.send_to_dwds(wort=wort, retry=retry+1)
+            raise ConnectionError("Keine gültige Antwort")
+
+    @staticmethod
+    def send_to_gramophone(wort, retry=0):
+        wort = str(wort).lower()  # Großbuchstaben versteht Gramophone nicht
+        response = requests.get("https://kaskade.dwds.de/~kmw/gramophone.py?q=%s" % wort)  # Max Länge = 25 Buchstaben
+        if response.status_code == 200:
+            response = str(response.text)
+            response_index_left = response.find("<tr><td>Segmented Transcription</td><td><tt>")
+            if response_index_left != -1:
+                response_lstrip = response[response_index_left + 44:]
+            else:
+                response_lstrip = ""
+
+            response_index_right = response_lstrip.find("</tt></td></tr>")
+            if response_index_right != -1:
+                response = response_lstrip[:response_index_right]
+            else:
+                response = ""
+
+            if response:
+                response_split = response.split()
+                ipa_buchstaben = []
+
+                for buchstabenpaar in response_split:
+                    try:
+                        klartext = buchstabenpaar.split(",")[0]
+                        ipa = buchstabenpaar.split(",")[1]
+                        ipa_buchstaben.append([klartext, ipa])
+                    except:
+                        break
+            else:
+                # Irgendetwas ist schief gelaufen: DEBUGGEN!!
+                raise Exception("KEINE GÜLTIGE ANTWORT VON GRAMOPHONE", wort, retry)
+
+            ipa_ganzes_wort = "".join([i[1] for i in ipa_buchstaben])
+            return ipa_ganzes_wort, ipa_buchstaben
+        else:
+            if retry < 5:
+                IPA.send_to_gramophone(wort=wort, retry=retry + 1)
             raise ConnectionError("Keine gültige Antwort")
 
     @staticmethod
