@@ -240,18 +240,8 @@ class Hauptteil(Preparation):
             except:
                 google_pred = [""]
             if google_pred:
-                google_pred = ipa.zahl_zu_text_sortieren(
-                    google_pred)  # Zahlen zu Text umformen, da Google sonst Zahlen in der Prediction ausgibt
-                # 95 zu fünfundneunzig
-                self.Google_KI = google_pred.split()
-                for wort in str(google_pred).strip().split():
-                    if wort in self.IPA_dict.keys():
-                        self.Google_IPAKI.append(self.IPA_dict[wort][0])
-                    else:
-                        # Erweiterung des Dictionary, damit später das gleiche Wort nicht mehr abgefragt werden muss
-                        self.IPA_dict[wort] = ipa.send_to_gramophone(wort=wort)
-
-                        self.Google_IPAKI.append(self.IPA_dict[wort][0])
+                self.Google_KI = str(google_pred).strip().split()
+                self.Google_IPAKI = ipa.text_zu_IPA(self.Google_KI)
 
     def IBM_pred(self):
         """Formatiert erhaltene Daten von IBM (durch send_to_IBM)"""
@@ -262,17 +252,9 @@ class Hauptteil(Preparation):
         confidence = data["results"][0]["alternatives"][0]["confidence"]
         keywords = data["results"][0]["keywords_result"]
         alternatives = data["results"][0]["alternatives"]
-        for wort in str(transcript).strip().split():
-            self.IBM_KI.append(wort)
 
-            if wort in self.IPA_dict.keys():
-                self.IBM_IPAKI.append(self.IPA_dict[wort][0])
-            else:
-                # Erweiterung des Dictionary, damit später das gleiche Wort nicht mehr abgefragt werden muss
-                self.IPA_dict[wort] = ipa.send_to_gramophone(wort=wort)
-
-                self.IBM_IPAKI.append(self.IPA_dict[wort][0])
-
+        self.IBM_KI = str(transcript).strip().split()
+        self.IBM_IPAKI = ipa.text_zu_IPA(self.IBM_KI)
 
     def send_to_IBM(self, path, target):
         global ibm_authenticator, ibm_service_url
