@@ -32,15 +32,13 @@ train_audio_transforms = nn.Sequential(
 )
 valid_audio_transforms = torchaudio.transforms.MelSpectrogram()
 
-target = "Eigens gewählter Satz, der gerne geübt werden möchte. Case- und Sonderzeicheninsensitiv!"
+target = "Eigens gewählter Satz, der gerne geübt werden möchte. Case- und Sonderzeichenunsensibel!"
 path_to_audio = r"C:\Users\USER\OneDrive\Aussprache Trainer\Audiofile.wav"  # Samplerate der wav-Datei = 48kHz !!!
 
-
-# VOM ZUSÄTZLICH MITABGEGEBENEN TEXTDOKUMENT ENTNEHMEN UND SUBSTITUIEREN
+# VOM ZUSÄTZLICH MITABGEGEBENEN TEXTDOKUMENT ENTNEHMEN UND ERSETZEN
 path_to_model = r'D:\AusspracheTrainer\AusspracheTrainerKI.pt'
 ibm_authenticator = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 ibm_service_url = "https://api.eu-gb.speech-to-text.watson.cloud.ibm.com/instances/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx"
-
 
 class Preparation:
     """Hier werden Basis-Funktionen 'deklariert', die im Hauptteil wichtig sind."""
@@ -183,10 +181,12 @@ class Hauptteil(Preparation):
         self.IBM_KI = []
         self.IBM_IPAKI = []
         self.target_IPA = []
+        self.IPA_zuordnungen = []
         Hauptteil.google_pred(self, path=path_to_audio)
         Hauptteil.send_to_IBM(self, path=path_to_audio,
                               target=target)  # IBM dauert länger als Google, dafür liefert es vielseitigere Ergebnisse
         Hauptteil.target_to_ipa(self, target)
+
         print("[2/2] Daten wurden empfangen")
         print()
 
@@ -203,21 +203,29 @@ class Hauptteil(Preparation):
         print()
 
         auswertung(" ".join(self.target_IPA), [" ".join(self.Google_IPAKI), " ".join(self.IBM_IPAKI),
-                                               " ".join(itertools.chain.from_iterable(AusspracheTrainer_IPAKI))])
+                                               " ".join(itertools.chain.from_iterable(AusspracheTrainer_IPAKI))],
+                   list(itertools.chain.from_iterable(self.IPA_zuordnungen)))
 
         # ------------ ENDE ------------ #
         ipa.IPA_dict_speichern(self.IPA_dict)
 
+
     def target_to_ipa(self, target):
         """Klartext zu IPA"""
         self.target = target
+
         for wort in self.target:
             if wort in self.IPA_dict.keys():
-                self.target_IPA.append(self.IPA_dict[wort])
+                self.target_IPA.append(self.IPA_dict[wort][0])
+                self.IPA_zuordnungen.append(self.IPA_dict[wort][1])
             else:
-                self.target_IPA.append(ipa.send_to_dwds(wort=wort))
-                self.IPA_dict[wort] = self.target_IPA[
-                    -1]  # Erweiterung des Dictionary, damit später das gleiche Wort nicht mehr abgefragt werden muss
+                # Erweiterung des Dictionary, damit später das gleiche Wort nicht mehr abgefragt werden muss
+                self.IPA_dict[wort] = ipa.send_to_gramophone(wort=wort)
+
+                self.target_IPA.append(self.IPA_dict[wort][0])
+                self.IPA_zuordnungen.append(self.IPA_dict[wort][1])
+            self.IPA_zuordnungen.append([[" ", " "]])
+        del self.IPA_zuordnungen[-1]  # Löscht das letzte Leerzeichen
 
     def google_pred(self, path):
         r = sr.Recognizer()
@@ -237,13 +245,13 @@ class Hauptteil(Preparation):
                 # 95 zu fünfundneunzig
                 self.Google_KI = google_pred.split()
                 for wort in str(google_pred).strip().split():
-                    wort = wort.lower()
                     if wort in self.IPA_dict.keys():
-                        self.Google_IPAKI.append(self.IPA_dict[wort])
+                        self.Google_IPAKI.append(self.IPA_dict[wort][0])
                     else:
-                        self.Google_IPAKI.append(ipa.send_to_dwds(wort=wort))
-                        self.IPA_dict[wort] = self.Google_IPAKI[-1]
                         # Erweiterung des Dictionary, damit später das gleiche Wort nicht mehr abgefragt werden muss
+                        self.IPA_dict[wort] = ipa.send_to_gramophone(wort=wort)
+
+                        self.Google_IPAKI.append(self.IPA_dict[wort][0])
 
     def IBM_pred(self):
         """Formatiert erhaltene Daten von IBM (durch send_to_IBM)"""
@@ -255,13 +263,16 @@ class Hauptteil(Preparation):
         keywords = data["results"][0]["keywords_result"]
         alternatives = data["results"][0]["alternatives"]
         for wort in str(transcript).strip().split():
-            wort = wort.lower()
             self.IBM_KI.append(wort)
+
             if wort in self.IPA_dict.keys():
-                self.IBM_IPAKI.append(self.IPA_dict[wort])
+                self.IBM_IPAKI.append(self.IPA_dict[wort][0])
             else:
-                self.IBM_IPAKI.append(ipa.send_to_dwds(wort=wort))
-                self.IPA_dict[wort] = self.IBM_IPAKI[-1]
+                # Erweiterung des Dictionary, damit später das gleiche Wort nicht mehr abgefragt werden muss
+                self.IPA_dict[wort] = ipa.send_to_gramophone(wort=wort)
+
+                self.IBM_IPAKI.append(self.IPA_dict[wort][0])
+
 
     def send_to_IBM(self, path, target):
         global ibm_authenticator, ibm_service_url
