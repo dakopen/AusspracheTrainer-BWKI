@@ -22,4 +22,4 @@ __Nachvollziehbarkeit, welcher Buchstabe des deutschen Alphabets zu welchem der 
 Dadurch kann die Auswertung auch im deutschen Alphabet ausgegeben werden, sodass Nutzer*innen, die nicht mit der Lautschrift bewandert sind, das Ergebnis trotzdem schnell und sicher verstehen. Dieses Feature können sie [hier](https://kaskade.dwds.de/~kmw/gramophone.py?q=modern#:~:text=Segmented%20Transcription,n%2Cn%20%3A%2013.095) sich angucken, beim Beispielwort "modern".  *Auf der Anwendungswebseite ist nur eine mögliche Aussprache des Homographs zu sehen.* </s>
 
 ### EDIT:
-Durch die Verlängerte Abgabefrist des Projekts haben wir diesen Punkt vorgezogen und das Feature programmiert. Nun können Nutzer*innen die Auswertung wahlweise in Lautschrift oder im deutschen Alphabet (Standart) sehen.
+Durch die Verlängerte Abgabefrist des Projekts haben wir diesen Punkt vorgezogen und das Feature programmiert. Nun können Nutzer*innen die Auswertung wahlweise in Lautschrift oder im deutschen Alphabet (Standard) sehen.
