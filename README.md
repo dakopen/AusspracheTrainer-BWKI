@@ -3,6 +3,24 @@ Der AusspracheTrainer analysiert mithilfe von künstlicher Intelligenz die Aussp
 
 *Datenschutz: Ihre Audio-Datei wird an Google (über das speech-recognition-package) und IBM (über eine API) übermittelt. Mit der Benutzung der Software erklären Sie sich mit deren DSGVO einverstanden.*
 ![Output](https://github.com/dakopen/AusspracheTrainer/blob/main/main/Example%20Output.png)
+## Aufbau des Repositorys
+`Schema und Funktionsweise.PDF` &#8594; Bietet einen groben Überblick über die Funktionsweise des AusspracheTrainers, damit die Funktionen der einzelnen Komponenten besser verstanden werden.
+
+`/Training/...` &#8594; Der Code, mit dem wir die KI trainiert haben, bzw. die Audio-Dateien normalisiert und getrimmt haben. Leider finden wir den Code nicht mehr, womit wir den kompletten Commonvoice Datensatz in Lautschrift "übersetzt" haben, allerdings ähnelt die Funktion sehr `/main/IPAclass.py`
+
+`/main/...` &#8594; Das ist der Hauptteil vom Projekt. In diesem Ordner befinden sich alle für den AusspracheTrainer wichtigen Funktionen. Sicher können Sie nicht alle Funktionen begutachten, also haben wir eine kleine Liste zusammengestellt von Funktionen, die wichtig und schön geschrieben/formatiert sind:
+* `sequence_matching()` in `/main/Funktionen.py`: Rekursive Funktion, die immer den längsten überschneidenden Abschnitt zweier Strings nimmt und in ein Dictionary sortiert. (Wobei die eigentliche Sortierung von `sort_sequence_dict` in der gleichen Datei übernommen wird)
+
+
+* `text_zu_IPA()` in `/main/IPAclass.py`: Sie übersetzt einen Satz aus Klartext (deutsches Alphabet) in phonetisches. Auf den ersten Blick ist diese Funktion nicht ganz so schön wie die vorherige, aber sie hat eine wichtiges Feature: Auch wenn die maximale Buchstabenanzahl der Text-zu-Lautschrift API 25 Buchstaben beträgt, kann sie Predictions (die unerwartet länger als 25 Buchstaben sind) trotzdem in Lautschrift übersetzen, indem Sie das Wort splittet und anschließend über die eine ähnliche Funktion wie `sequence_matching()`  zusammenführt. 
+ 
+    *Dies funktioniert allerdings ausschließlich bei Predictions, da wir aus Zeitknappheit bislang die Zuordnung der Lautschrift (IPA) zu Klartext Buchstaben nicht in der Zusammenführungsfunktion integriert haben. Da in der Auswertung die Lautschrift zu Klartext zurückgeformt werden muss, ist die Zuordnung elementar.*
+
+
+* Die Idee des IPA_dict's (siehte `/main/IPAclass.py`), sodass Wörter nicht erneut abgefragt werden müssen, wenn sie einmal von der API abgefragt wurden. Dieses Vorgehen ersparte besonders beim Umformen der Sätze des Commonvoice Datensatzes unmengen an Zeit. Das IPA_dict wird lokal als Pickle-Datei abgespeichert.
+
+
+
 
 ## Setup
 Das Setup erweist sich leider als etwas kompliziert, aber mit den folgenden Schritten haben Sie den AusspracheTrainer in schnell installiert.
@@ -73,9 +91,24 @@ Wenn...
  
 sind Sie bereit.
 
+Ein Wort im Targetsatz darf maximal 25 Buchstaben lang sein, da die externe API nicht mehr Buchstaben erlaubt. In zukünftigen Releases haben wir dies umgangen (wie bereits in der `text_zu_IPA()` Funktion für Predicitons).
+
 Einfach die `AusspracheTrainer.py` Funktion starten. Das Laden des Modells kann je nach Systemvoraussetzungen einige Sekunden (bei CPU länger) in Anspruch nehmen. Etwas länger dauert das Senden und Empfangen der Audio-Datei an Google und IBM. Dies dauert ca. 20 Sekunden.
 
 Das Ergebnis kann je nach Erfahrungsgrad erweitert werden. In der `Auswertung.py`-Datei finden Sie an einigen Stellen kommentierte Bereiche. Zum Beispiel können Sie entscheiden, ob Sie die Endauswertung gerne in Lautschrift oder deutschem Alphabet (Standard) hätten. Außerdem ist der Sigmatismus_score verfügbar, der zeigt, wie oft sie Zischlaute richtig ausgesprochen haben (je kleiner, desto schlechter).
+
+### Wie die Farben im Output zu verstehen sind:
+* Grün: Perfekte Aussprache, ein grüner Buchstabe/Satzabschnitt hat einen Score von über 0.75, also wurde er von allen KIs richtig erkannt
+* Lila: Der Buchstabe/Satzabschnitt wurde von min. einer KI falsch erkannt. Score: 0.5-0.75
+* Gelb: Der Buhstabe/Satzabschnitt wurde von mehreren KIs falsch erkannt. Spätestens hier ist der Buchstabe/Satzabschnitt ohne Kontext oft missverständlich. Score: 0.25-0.5
+* Rot: Der Buchstabe/Satzabschnitt wurde so gut wie gar nicht erkannt. D.h. die KIs haben die Wörter, in dem er vorkommt anders verstanden. Für Menschen ist er wahrscheinlich - ohne Kontext - genause unverständlich. Score < 0.25
+
+###Abschließende Überlegungen:
+Beim Trainieren unserer KI kamen Frauen- (9%) und Männeranteile (69%) nicht gleichverteilt zur Sprache. Außerdem können Altersunterschiede Einfluss auf eine von der KI falsch verstandene Aussprache haben.
+
+Gleiches gilt, aber im viel kleineren Sinne für die KIs von Google und IBM. Maschinelles Lernen funktioniert anders als menschliche Gehirne - eine unnatürliche und besonders lebhafte und trotzdem richtige Betonung wird von Maschinen oft als Fehler anerkannt. 
+
+**Diese Software ersetzt keinesfalls eine logopädische Fachkraft. Falls ein Verdacht auf Sprachfehler besteht, wenden Sie sich bitte an eine logopädische Praxis in Ihrer Umgebung.**
 
 ## Kontakt
 Daniel Busch - dakopen185@gmail.com
