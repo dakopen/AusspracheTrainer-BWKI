@@ -77,6 +77,10 @@ Einfach die `AusspracheTrainer.py` Funktion starten. Das Laden des Modells kann 
 
 Das Ergebnis kann je nach Erfahrungsgrad erweitert werden. In der `Auswertung.py`-Datei finden Sie an einigen Stellen kommentierte Bereiche. Zum Beispiel können Sie entscheiden, ob Sie die Endauswertung gerne in Lautschrift oder deutschem Alphabet (Standard) hätten. Außerdem ist der Sigmatismus_score verfügbar, der zeigt, wie oft sie Zischlaute richtig ausgesprochen haben (je kleiner, desto schlechter).
 
+## Kontakt
+Daniel Busch - dakopen185@gmail.com
+
+Projektlink: https://github.com/dakopen/AusspracheTrainer/
 
 ## Quellenangabe wichtiger Komponenten
 ### Gramophone
