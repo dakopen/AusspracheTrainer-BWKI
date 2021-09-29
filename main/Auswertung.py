@@ -94,10 +94,10 @@ def auswertung(target, predictions, ipa_zuordnungen):
     Grün (perfekt), Lila (leicht unverständlich), Gelb (unverständlich), Rot (sehr unverständlich)
     Außerdem wird die Aussprache auf Sprachfehler (zurzeit nur Sigmatimus (Lispeln)) überprüft.
     """
+    predictions[2] = "".join([i for i in predictions[2] if i not in ["ˈ", "ˌ"]])
     _, target_output, prediction_output = einzelvergleich(target, predictions[0])
     _, target_output2, prediction_output2 = einzelvergleich(target, predictions[1])
     _, target_output3, prediction_output3 = einzelvergleich(target, predictions[2])
-    prediction_output3 = "".join([i for i in prediction_output3 if i not in ["ˈ", "ˌ"]])
 
     char_scores = {}
     for c, char in enumerate(target):
