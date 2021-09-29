@@ -77,10 +77,10 @@ class Preparation:
         target = ''.join(e for e in target if e.isalnum() or e == " ")
         target = re.sub(" +", " ", target)
         logging.info("Zielsatz gesetzt: %s" % target)
-        a = [x for x in target.split() if len(x) > 30]
+        a = [x for x in target.split() if len(x) > 25]
         if len(a) > 0:
-            raise Exception("Es darf kein Wort über dreißig (30) Buchstaben lang sein")
-        return target.split(" ")
+            raise Exception("Es darf kein Wort über fünfundzwanzig (25) Buchstaben lang sein")
+        return ipa.zahl_zu_text_sortieren(target.split())
 
     @staticmethod
     def test(model, device, test_loader):
