@@ -36,7 +36,7 @@ target = "Eigens gewählter Satz, der gerne geübt werden möchte. Case- und Son
 path_to_audio = r"C:\Users\USER\OneDrive\Aussprache Trainer\Audiofile.wav"  # Samplerate der wav-Datei = 48kHz !!!
 
 # VOM ZUSÄTZLICH MITABGEGEBENEN TEXTDOKUMENT ENTNEHMEN UND ERSETZEN
-path_to_model = r'D:\AusspracheTrainer\AusspracheTrainerKI.pt'
+path_to_model = r'D:\AusspracheTrainer\AusspracheTrainerKI.pt'  # Herunterladen von https://1drv.ms/u/s!AhrRle8s079TiaRbOrVJ6Gd4HPomqg?e=x1hfEi
 ibm_authenticator = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 ibm_service_url = "https://api.eu-gb.speech-to-text.watson.cloud.ibm.com/instances/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx"
 
