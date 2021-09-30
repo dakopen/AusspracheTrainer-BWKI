@@ -1,5 +1,4 @@
 import re
-from termcolor import colored
 from Funktionen import einzelvergleich, bcolors
 
 
@@ -38,7 +37,6 @@ def char_score_berechnen(target_output, char_scores, target):
             score = 0
         for j in range(len(chars)):
             if target[char_index_score] == " " and chars[j] != " ":
-                print(colored("CHARINDEXSCORE+1", "blue"), char_index_score, target[char_index_score])
                 char_index_score += 1
             char_scores[char_index_score] = char_scores[char_index_score] - score
             char_index_score += 1
