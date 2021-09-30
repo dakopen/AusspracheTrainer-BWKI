@@ -19,6 +19,11 @@ Der AusspracheTrainer analysiert mithilfe von künstlicher Intelligenz die Aussp
 
 * Die Idee des IPA_dict's (siehte `/main/IPAclass.py`), sodass Wörter nicht erneut abgefragt werden müssen, wenn sie einmal von der API abgefragt wurden. Dieses Vorgehen ersparte besonders beim Umformen der Sätze des Commonvoice Datensatzes unmengen an Zeit. Das IPA_dict wird lokal als Pickle-Datei abgespeichert.
 
+`/Past/...` &#8594; Ähnlich zum Training sind hier frühere Funktionen, die der Vergangenheit angehören. Sie wurden durch effizientere Ersetzt. Die meisten Funktionen gehen hierbei auf das Problem ein, den Targetsatz mit der Prediction sinnvoll zu matchen, damit die richtigen Abschnitte verglichen werden, auch wenn ein Wort zu viel predicted wurde oder in mehrere Wörter aufgeteilt wurde (z.B. e gitarre statt egitarre).
+
+`/Future/...` &#8594; Dieser Part ist womöglich der interessanteste, da Zukunft des AusspracheTrainers erläutert wird bzw. welche Features geplant sind. Das letzte Feature hat es durch die verlängerte Abgabefrist in den fertigen AusspracheTrainer geschafft - die Auswertung kann nun im deutschen Alphabet statt ausschließlich in Lautschrift erfolgen. Das hilft vor allem Laien, die sich nicht mit Lautschrift auskennen.
+
+
 
 
 
