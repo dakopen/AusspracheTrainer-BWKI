@@ -102,13 +102,31 @@ Einfach die `AusspracheTrainer.py` Funktion starten. Das Laden des Modells kann 
 
 Das Ergebnis kann je nach Erfahrungsgrad erweitert werden. In der `Auswertung.py`-Datei finden Sie an einigen Stellen kommentierte Bereiche. Zum Beispiel können Sie entscheiden, ob Sie die Endauswertung gerne in Lautschrift oder deutschem Alphabet (Standard) hätten. Außerdem ist der Sigmatismus_score verfügbar, der zeigt, wie oft sie Zischlaute richtig ausgesprochen haben (je kleiner, desto schlechter).
 
-### Wie die Farben im Output zu verstehen sind:
+## Output
+
+### Logging-Informationen
+Die ersten beiden Zeilen zeigen an, dass der AusspracheTrainer lädt bzw. fertig geladen hat. Während dieser Prozess nur einige Sekunden in Anspruch nehmen sollte, dauert das Senden der Audio-Datei an IMB und Google wesentlich länger. Damit Sie währenddessen wissen, dass sich etwas tut, haben wir das als Logging Information in den Output integriert.
+
+### Klartext-Ergebnisse
+Sobald die Ergebnisse von Google und IBM vorliegen, wird der Zielsatz und die beiden Ergebnisse angezeigt. Zusätzlich noch einmal der Pfad zur Audio-Datei, damit Sie noch einmal überprüfen können, ob die richtige Audio-Datei ausgewählt wurde.
+
+### Lautschrift
+Die Ergebnisse werden zum Vergleichen (weil unsere KI ausschließlich Lautschrift ausgibt) mit einer API an Gramophone in Lautschrift übersetzt. Die "neuen" Ergebnisse sowie die Prediction unserer AusspracheTrainer IPA-KI sehen Sie nun.
+
+### Targets & Predictions
+Nun wird der Targetsatz drei Mal mit der jeweiligen Prediction verglichen. Dies geschieht in folgender Reihenfolge: Google - IBM - AusspracheTrainer IPA-KI. Die Targets werden in dieser Reihenfolge angezeigt, wobei die Farbe Gelb anzeigt, wenn etwas anders verstanden wurde. Das gleiche gilt für die Predictions unten drunter, wobei hier auch die Farbe Rot herangezogen wird für fehlende Abschnitte, oder wenn etwas zu viel ist.
+
+### Auswertung
+Zuletzt wird die Auswertung angezeigt. Sie geschieht wieder im deutschen Alphabet. Die Bedeutung der Farben ist die folgende:
 * Grün: Perfekte Aussprache, ein grüner Buchstabe/Satzabschnitt hat einen Score von über 0.75, also wurde er von allen KIs richtig erkannt
 * Lila: Der Buchstabe/Satzabschnitt wurde von min. einer KI falsch erkannt. Score: 0.5-0.75
 * Gelb: Der Buhstabe/Satzabschnitt wurde von mehreren KIs falsch erkannt. Spätestens hier ist der Buchstabe/Satzabschnitt ohne Kontext oft missverständlich. Score: 0.25-0.5
 * Rot: Der Buchstabe/Satzabschnitt wurde so gut wie gar nicht erkannt. D.h. die KIs haben die Wörter, in dem er vorkommt anders verstanden. Für Menschen ist er wahrscheinlich - ohne Kontext - genause unverständlich. Score < 0.25
 
-###Abschließende Überlegungen:
+Zu guter Letzt wird - falls ein Sprachfehler (bisher nur Lispeln) vorliegt - dieser angezeigt und der Score mit einer sprachlichen Bewertung ausgegeben.
+
+
+## Abschließende Überlegungen:
 Beim Trainieren unserer KI kamen Frauen- (9%) und Männeranteile (69%) nicht gleichverteilt zur Sprache. Außerdem können Altersunterschiede Einfluss auf eine von der KI falsch verstandene Aussprache haben.
 
 Gleiches gilt, aber im viel kleineren Sinne für die KIs von Google und IBM. Maschinelles Lernen funktioniert anders als menschliche Gehirne - eine unnatürliche und besonders lebhafte und trotzdem richtige Betonung wird von Maschinen oft als Fehler anerkannt. 
