@@ -42,7 +42,7 @@ CUDA nur für Nvidia Grafikkarten; Alternativ läuft das Modell sehr gut über C
 ### 1. Python Installationen
 Für unser Projekt benutzen wir `Python 3.8`, der AusspracheTrainer sollte jedoch auf anderen `Python 3` Versionen gleich funktionieren. 
 
-Downloaden Sie das gesamte Projekt oder nur den `/main` Ordner. Bitte stellen Sie sicher, dass alle Funktionen des main-Ordners sich im selbem Ordner befinden.
+Downloaden Sie das gesamte Projekt oder nur den `/main` Ordner. Bitte stellen Sie sicher, dass alle Funktionen des main-Ordners sich im selbem Ordner in Ihrer Entwicklungsumgebung befinden.
 
 Mit `pip install -r requirements.txt` installieren Sie bitte alle benötigten Packages. Zusätzlich wird [Pytorch](https://pytorch.org/get-started/locally/) benötigt. Bitte wählen Sie die `(Stable) 1.9.1` Version mit `CUDA 11.1` (sofern Nvidia Grafikkarte vorhanden, sonst `CPU`) für Ihr Betriebssystem aus und kopieren Sie die Command Line, welchen Sie anschließend in Ihrer Entwicklungsumgebung ausführen müssen.
 
