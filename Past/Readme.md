@@ -17,5 +17,5 @@ Diese Funktion wurde auch überflüssig. Teile davon sind in die jetzige Auswert
 ## Auswertungs-KI:
 Ursprünglich hatten wir vor, die Auswertung auch mit maschinellem Lernen zu programmieren. Dafür labelten wir über 1000 Ergebnisse nach der Verständlichkeit der Aussprache (gut - mittel - schlecht bzw. 0 - 1 - 2) und programmierten ein LSTM Model, mit `<Tags>` zwischen den Predictions bzw. Targets. Leider hat die KI bei diesen 3 simplen Kategorien nur leicht bessere Resultate erzielt als die mathematische Wahrscheinlichkeit ist (40% vs. 33%), jenes allerdings viel zu gering war, um damit weiterzuarbeiten.
 
-### | Bitte nehmen Sie zur Kenntnis, dass der Code aus Zeitgründen nicht schön formatiert wurde; er dient lediglich für einen groben Überblick übere unsere bisherige Mühen und Überlegungen |
+### Bitte nehmen Sie zur Kenntnis, dass der Code aus Zeitgründen nicht schön formatiert wurde; er dient lediglich für einen groben Überblick übere unsere bisherige Mühen und Überlegungen
 
