@@ -23,8 +23,7 @@ Der AusspracheTrainer analysiert mithilfe von künstlicher Intelligenz die Aussp
 
 `/Future/...` &#8594; Dieser Part ist womöglich der interessanteste, da Zukunft des AusspracheTrainers erläutert wird bzw. welche Features geplant sind. Das letzte Feature hat es durch die verlängerte Abgabefrist in den fertigen AusspracheTrainer geschafft - die Auswertung kann nun im deutschen Alphabet statt ausschließlich in Lautschrift erfolgen. Das hilft vor allem Laien, die sich nicht mit Lautschrift auskennen.
 
-
-
+`/Testaudios 48 kHz/...` &#8594; Falls die eigene Aufnahme von Audios zu aufwendig ist, haben wir exemplarisch drei Audios hochgeladen. Diese sollen einmal eine ziemlich gute Aussprache (`Es war einmal ein Müller, der war arm, aber er hatte eine schöne Tochter.wav`), eine Aussprache mit Sprachfehler (lispeln) (`Die Schnecken hinterlassen eine Schleimspur auf der Straße.wav`) darstellen sowie die Zahl-zu-Wort Funktion demonstrieren (`Ich habe 15 Kinder und sieben Schwestern.wav`). Dennoch empfehlen wir dringlich den AusspracheTrainer selbst auszuprobieren mit eigenen Audios!
 
 
 ## Setup
