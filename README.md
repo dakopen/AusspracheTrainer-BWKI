@@ -44,7 +44,7 @@ Für unser Projekt benutzen wir `Python 3.8`, der AusspracheTrainer sollte jedoc
 
 Downloaden Sie das gesamte Projekt oder nur den `/main` Ordner. Bitte stellen Sie sicher, dass alle Funktionen des main-Ordners sich im selbem Ordner befinden.
 
-Mit `pip install -r requirements.txt` installieren Sie bitte alle benötigten Packages. Zusätzlich wird [Pytorch](https://pytorch.org/get-started/locally/) benötigt. Bitte wählen Sie die `(Stable) 1.9.1` Version mit `CUDA 11.1` für Ihr Betriebssystem aus und kopieren Sie die Command Line, welchen Sie anschließend in Ihrer Entwicklungsumgebung ausführen müssen.
+Mit `pip install -r requirements.txt` installieren Sie bitte alle benötigten Packages. Zusätzlich wird [Pytorch](https://pytorch.org/get-started/locally/) benötigt. Bitte wählen Sie die `(Stable) 1.9.1` Version mit `CUDA 11.1` (sofern Nvidia Grafikkarte vorhanden, sonst `CPU`) für Ihr Betriebssystem aus und kopieren Sie die Command Line, welchen Sie anschließend in Ihrer Entwicklungsumgebung ausführen müssen.
 
 ### 2. KI herunterladen
 Unsere KI umfasst etwas mehr als 500 MB und steht daher nur auf OneDrive zum Herunterladen bereit. Laden Sie mit diesem [Link](https://1drv.ms/u/s!AhrRle8s079TiaRbOrVJ6Gd4HPomqg?e=x1hfEi "AusspracheTrainerKI") das Pytorch Model herunter und setzen Sie den absoluten Path in `AusspracheTrainer.py` (ist die main Funktion, also diejenige, die Sie später auch ausführen sollen) in folgende Zeile als String ein:
