@@ -132,6 +132,15 @@ Gleiches gilt, aber im viel kleineren Sinne für die KIs von Google und IBM. Mas
 
 **Diese Software ersetzt keinesfalls eine logopädische Fachkraft. Falls ein Verdacht auf Sprachfehler besteht, wenden Sie sich bitte an eine logopädische Praxis in Ihrer Umgebung.**
 
+## Vergleichbare Produkte
+### ISi-Speech
+[ISi-Speech](https://www.isi-speech.de/) – Individualisierte Spracherkennung in der Rehabilitation für Menschen mit Beeinträchtigung in der Sprechverständlichkeit.
+
+Das logopädische Tool zielt jedoch auf eine andere Zielgruppe ab: "Personen mit stark reduzierter Sprechverständlichkeit infolge einer neurologischen Erkrankung" <sup>[1](https://www.isi-speech.de/entstehung/#:~:text=Als%20Zielgruppe%20werden,m%C3%B6glich%20und%20gew%C3%BCnscht.)</sup> 
+
+Die Zielgruppe des AusspracheTrainers ist hingegen viel breiter gefasst - Muttersprachler (mit und ohne Sprachfehler) sowie nicht-Muttersprachler, jene die komplizierte deutsche Aussprache erlernen möchten.
+
+
 ## Kontakt
 Daniel Busch - dakopen185@gmail.com
 
