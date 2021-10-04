@@ -47,6 +47,7 @@ def sequence_matching(target, prediction, minus_i=-1, plus_i=1):
     'e':'e'
     """
     # Rekursive Funktion:
+    # difflib.SequenceMatcher; siehe https://docs.python.org/3/library/difflib.html
     match = SequenceMatcher(None, target, prediction).find_longest_match(0, len(target), 0, len(prediction))
     if match.size == 0:
         return "KEIN MATCH", {0: [target, prediction]}
