@@ -90,7 +90,7 @@ Die `AusspracheTrainer.py` ist das Herzstück des Trainers. Sie importiert alle 
 Wenn... 
 * Alle Packages inkl. Pytorch über die Command Line installiert,
 * beide IBM-Api-Keys eingesetzt, 
-* ein direkter Path (entweder double backslash `"C://Path//Zum//Ordner//AusspracheTrainerKI.pt"` oder mit r `r"C:/Path/Zum/Ordner/AusspracheTrainerKI.pt`) zur heruntergeladenen KI besteht und 
+* ein direkter Path (entweder double backslash `"C://Path//Zum//Ordner//AusspracheTrainerKI.pt"` oder mit r `r"C:/Path/Zum/Ordner/AusspracheTrainerKI.pt"`) zur heruntergeladenen KI besteht und 
 * eine Audio-Datei mit einer Sample-Rate von 48 kHz im `.wav` Format vorliegt und zusammen mit dem target (=vorgelesenen Satz) in dem Skript eingesetzt wurde,
  
 sind Sie bereit.
