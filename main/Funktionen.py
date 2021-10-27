@@ -47,7 +47,6 @@ def sequence_matching(target, prediction, minus_i=-1, plus_i=1):
     'e':'e'
     """
     # Rekursive Funktion:
-    # difflib.SequenceMatcher; siehe https://docs.python.org/3/library/difflib.html
     match = SequenceMatcher(None, target, prediction).find_longest_match(0, len(target), 0, len(prediction))
     if match.size == 0:
         return "KEIN MATCH", {0: [target, prediction]}
@@ -82,7 +81,6 @@ def einzelvergleich(target, prediction):
 
     _, matchings = sequence_matching(target, prediction)
     sorted_sequence_dict = sort_sequence_dict(dict(sorted(matchings.items())))
-
     for value in sorted_sequence_dict.values():
         target_sequence = value[0]
         prediction_sequence = value[1]
@@ -115,4 +113,4 @@ def einzelvergleich(target, prediction):
                 prediction_output += bcolors.WARNING + prediction_sequence + bcolors.ENDC
                 fehler_liste.append((5, [target_sequence, prediction_sequence]))
 
-    return fehler_liste, target_output, prediction_output
+    return fehler_liste, target_output, prediction_output, sorted_sequence_dict
