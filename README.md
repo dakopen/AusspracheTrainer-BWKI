@@ -17,7 +17,7 @@ Der AusspracheTrainer analysiert mithilfe von künstlicher Intelligenz die Aussp
     *Dies funktioniert allerdings ausschließlich bei Predictions, da wir aus Zeitknappheit bislang die Zuordnung der Lautschrift (IPA) zu Klartext Buchstaben nicht in der Zusammenführungsfunktion integriert haben. Da in der Auswertung die Lautschrift zu Klartext zurückgeformt werden muss, ist die Zuordnung elementar.*
 
 
-* Die Idee des IPA_dict's (siehte `/main/IPAclass.py`), sodass Wörter nicht erneut abgefragt werden müssen, wenn sie einmal von der API abgefragt wurden. Dieses Vorgehen ersparte besonders beim Umformen der Sätze des Commonvoice Datensatzes unmengen an Zeit. Das IPA_dict wird lokal als Pickle-Datei abgespeichert.
+* Die Idee des IPA_dict's (siehe `/main/IPAclass.py`), sodass Wörter nicht erneut abgefragt werden müssen, wenn sie einmal von der API abgefragt wurden. Dieses Vorgehen ersparte besonders beim Umformen der Sätze des Commonvoice Datensatzes unmengen an Zeit. Das IPA_dict wird lokal als Pickle-Datei abgespeichert.
 
 `/Past/...` &#8594; Ähnlich zum Training sind hier frühere Funktionen, die der Vergangenheit angehören. Sie wurden durch effizientere Ersetzt. Die meisten Funktionen gehen hierbei auf das Problem ein, den Targetsatz mit der Prediction sinnvoll zu matchen, damit die richtigen Abschnitte verglichen werden, auch wenn ein Wort zu viel predicted wurde oder in mehrere Wörter aufgeteilt wurde (z.B. e gitarre statt egitarre).
 
