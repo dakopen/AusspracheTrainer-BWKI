@@ -119,7 +119,7 @@ Nun wird der Targetsatz drei Mal mit der jeweiligen Prediction verglichen. Dies 
 Zuletzt wird die Auswertung angezeigt. Sie geschieht wieder im deutschen Alphabet. Die Bedeutung der Farben ist die folgende:
 * Grün: Perfekte Aussprache, ein grüner Buchstabe/Satzabschnitt hat einen Score von über 0.75, also wurde er von allen KIs richtig erkannt
 * Lila: Der Buchstabe/Satzabschnitt wurde von min. einer KI falsch erkannt. Score: 0.5-0.75
-* Gelb: Der Buhstabe/Satzabschnitt wurde von mehreren KIs falsch erkannt. Spätestens hier ist der Buchstabe/Satzabschnitt ohne Kontext oft missverständlich. Score: 0.25-0.5
+* Gelb: Der Buchstabe/Satzabschnitt wurde von mehreren KIs falsch erkannt. Spätestens hier ist der Buchstabe/Satzabschnitt ohne Kontext oft missverständlich. Score: 0.25-0.5
 * Rot: Der Buchstabe/Satzabschnitt wurde so gut wie gar nicht erkannt. D.h. die KIs haben die Wörter, in dem er vorkommt anders verstanden. Für Menschen ist er wahrscheinlich - ohne Kontext - genause unverständlich. Score < 0.25
 
 Zu guter Letzt wird - falls ein Sprachfehler (bisher nur Lispeln) vorliegt - dieser angezeigt und der Score mit einer sprachlichen Bewertung ausgegeben.
