@@ -202,7 +202,7 @@ def auswertung(target, predictions, ipa_zuordnungen):
         if rhotazismus_counter / rhotazismus_occurences > 0.7:
             print(f"{bcolors.FAIL}Auffällig ungenaue Aussprache beim R "
                   f"(Rhotazismus = {list(Sprachfehler.RHOTAZISMUS.keys())}).{bcolors.ENDC}")
-        elif schetismus_counter / schetismus_occurences > 0.4:
+        elif rhotazismus_counter / rhotazismus_occurences > 0.4:
             print(f"{bcolors.WARNING}Überdurchschnittlich ungenaue Aussprache beim R "
                   f"(Rhotazismus = {list(Sprachfehler.RHOTAZISMUS.keys())}). {bcolors.ENDC}")
 
