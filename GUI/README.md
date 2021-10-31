@@ -10,3 +10,5 @@ Folgende Featurs beinhaltet das GUI:
 
 Außerdem werden 3 weitere Sprachfehler erkannt.
 Dadurch, dass neue Features hinzu kamen, bezieht sich das andere README ausschließlich auf den main Code. In Zukunft kommen für das GUI genauso ein Update inklusive requirements.txt
+
+### DER CODE BEFINDET SICH IN DER ENTWICKLUNGSPHASE UND IST DEMENTSPRECHEND SCHLECHT FORMATIERT / INEFFIZIENT
