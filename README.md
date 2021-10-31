@@ -68,7 +68,7 @@ Beispielsätze zum Thema pot. Lispeln erkennen finden Sie unter
 * >/.../: Weitere Sprachfehler kommen bald! Siehe `/Future/Readme.md`
 
 
-### 5. Audios aufnehmen mit einer Samplerate von 48 kHz
+### 5. Audios aufnehmen mit einer Samplerate von 48 kHz sowie Bitrate von 768 kBit/s
 Zielformat ist `.wav` mit einer Sample-Rate von 48 kHz. Beide Faktoren sind unermesslich für den AusspracheTrainer.
 Für Android schlagen wir Stimmrekorder Plus vor, da man dort eine Sample-Rate von 48 kHz (*nicht voreingestellt!*) und das Zielformat .wav einstellen kann. Vergessen Sie bitte nicht, das Export-Format auf unkomprimiert zu stellen (!), damit auch wirklich eine .wav Datei exportiert wird. 
 
