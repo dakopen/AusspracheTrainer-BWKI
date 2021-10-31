@@ -37,8 +37,8 @@ def aussprache_trainer(target, path_to_audio, model, device, use_cuda):
     )
     valid_audio_transforms = torchaudio.transforms.MelSpectrogram()
     path_to_model = r"C:\Users\dakop\OneDrive\AusspracheTrainerKI.pt"
-    ibm_service_url = 'https://api.eu-gb.speech-to-text.watson.cloud.ibm.com/instances/bf3291a1-bd2c-47b3-80d7-7fea31fa0d46'
-    ibm_authenticator = "vcLBS0BPyOMJCD3hGijUbXpopVj_Wy25PmVVNnIM4RB3"
+    ibm_service_url = 'XXXX'
+    ibm_authenticator = "XXXX"
 
 
     class Preparation:
