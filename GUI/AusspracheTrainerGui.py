@@ -223,7 +223,7 @@ while True:
             window["target"].update(random.choice(ch1_saetze))
 
         elif values["_DROPDOWN_"] == "Wettbewerbssatz":
-            window["target"].update("Das Pferd isst keinen Gurkensalat.")
+            window["target"].update("Die Regisseurin meint, das Accessoire sei Quatsch mit Soße.")
 
 
         if values["target"] in highscores.keys():
