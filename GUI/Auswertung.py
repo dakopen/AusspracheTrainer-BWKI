@@ -15,6 +15,10 @@ class Sprachfehler:
     CHITISMUS = {"ç": ["ʃ", "s", "z"]}
     SCHETISMUS = {"ʃ": ["s", "z", "ç"]}
 
+    S = ["s", "z"]
+    CH = ["ç"]
+    SCH = ["ʃ"]
+
     # Weitere Sprachfehler einfügen
 
 
@@ -77,7 +81,7 @@ def chars_zu_viel(prediction):
             stop_at = a[i]
             chars = prediction[start_at:stop_at]
             chars = [i for i in chars if i != "_"]
-            score = (len(chars) / len_sequence) / 3  # Da es 3 Predictions gibt, sonst wäre zu viel Minus
+            score = (len(chars) / len_sequence) / 1.5  # Da es 3 Predictions gibt, sonst wäre zu viel Minus
             minus_score += score
     return minus_score
 
@@ -163,51 +167,38 @@ def auswertung(target, predictions, ipa_zuordnungen):
     overall_score -= (chars_zu_viel(prediction_output) + chars_zu_viel(prediction_output2) + chars_zu_viel(
         prediction_output3))
 
-    matchings_liste = [matchings, matchings2, matchings3]
-    sigmatismus_counter += sum([sprachfehler_finden(match, Sprachfehler.SIGMATISMUS) for match in matchings_liste])
-    rhotazismus_counter += sum([sprachfehler_finden(match, Sprachfehler.RHOTAZISMUS) for match in matchings_liste])
-    schetismus_counter += sum([sprachfehler_finden(match, Sprachfehler.SCHETISMUS) for match in matchings_liste])
-    chitismus_counter += sum([sprachfehler_finden(match, Sprachfehler.CHITISMUS) for match in matchings_liste])
 
 
-    sigmatismus_occurences, rhotazismus_occurences, schetismus_occurences, chitismus_occurences = 0, 0 , 0, 0
-    sigmatismus_occurences += sum([str(target).count(key) for key in Sprachfehler.SIGMATISMUS.keys()])
-    rhotazismus_occurences += sum([str(target).count(key) for key in Sprachfehler.RHOTAZISMUS.keys()])
-    schetismus_occurences += sum([str(target).count(key) for key in Sprachfehler.SCHETISMUS.keys()])
-    chitismus_occurences += sum([str(target).count(key) for key in Sprachfehler.CHITISMUS.keys()])
+    sigmatismus_scores, rhotazismus_scores, schetismus_scores, chitismus_scores = [], [], [], []
+    s_scores, ch_scores, sch_scores = [], [], []
+    for index, score in char_scores.items():
+        if target[index] in Sprachfehler.SIGMATISMUS.keys():
+            sigmatismus_scores.append(score)
 
-    # > 2 damit keine Nulldivision auftritt und es genug Aussagekraft hat
-    if sigmatismus_occurences > 2:
-        if sigmatismus_counter / sigmatismus_occurences > 0.7:
-            print(f"{bcolors.FAIL}Auffällig ungenaue Aussprache der Zischlaute "
-                  f"(Lispeln = {list(Sprachfehler.SIGMATISMUS.keys())} bzw. ['sch', 's', 'ch']).{bcolors.ENDC}")
-        elif sigmatismus_counter / sigmatismus_occurences > 0.4:
-            print(f"{bcolors.WARNING}Überdurchschnittlich ungenaue Aussprache der Zischlaute "
-                  f"(Lispeln = {list(Sprachfehler.SIGMATISMUS.keys())}  bzw. ['sch', 's', 'ch']). {bcolors.ENDC}")
+        r'''if target[index] in Sprachfehler.RHOTAZISMUS.keys():
+            rhotazismus_scores.append(score)
+        if target[index] in Sprachfehler.SCHETISMUS.keys():
+            schetismus_scores.append(score)
+        if target[index] in Sprachfehler.CHITISMUS.keys():
+            chitismus_scores.append(score)'''
+        # ANDERE SPRACHFEHLER ERST IN ZUKÜNFTIGEN VERSIONEN
 
-    if rhotazismus_occurences > 2:
-        if rhotazismus_counter / rhotazismus_occurences > 0.7:
-            print(f"{bcolors.FAIL}Auffällig ungenaue Aussprache beim R "
-                  f"(Rhotazismus = {list(Sprachfehler.RHOTAZISMUS.keys())}).{bcolors.ENDC}")
-        elif rhotazismus_counter / rhotazismus_occurences > 0.4:
-            print(f"{bcolors.WARNING}Überdurchschnittlich ungenaue Aussprache beim R "
-                  f"(Rhotazismus = {list(Sprachfehler.RHOTAZISMUS.keys())}). {bcolors.ENDC}")
+        if target[index] in Sprachfehler.S:
+            s_scores.append(score)
+        elif target[index] in Sprachfehler.CH:
+            ch_scores.append(score)
+        elif target[index] in Sprachfehler.SCH:
+            sch_scores.append(score)
 
-    if schetismus_occurences > 2:
-        if schetismus_counter / schetismus_occurences > 0.7:
-            print(f"{bcolors.FAIL}Auffällig ungenaue Aussprache der Zischlaute "
-                  f"(Schetismus = {list(Sprachfehler.SCHETISMUS.keys())}).{bcolors.ENDC}")
-        elif schetismus_counter / schetismus_occurences > 0.4:
-            print(f"{bcolors.WARNING}Überdurchschnittlich ungenaue Aussprache der Zischlaute "
-                  f"(Schetismus = {list(Sprachfehler.SCHETISMUS.keys())}). {bcolors.ENDC}")
+    if sum(sigmatismus_scores)/len(sigmatismus_scores) < 0.5:
+        print(f"{bcolors.FAIL}Auffällig ungenaue Aussprache der Zischlaute "
+              f"(Lispeln = {list(Sprachfehler.SIGMATISMUS.keys())} bzw. ['sch', 's', 'ch']).{bcolors.ENDC}")
+        print(f"Aufschlüsselung nach Laut (je größer, desto besser): \n S: {round(sum(s_scores)/len(s_scores), 3)} \n CH: {round(sum(ch_scores)/len(ch_scores), 3)} \n SCH: {round(sum(sch_scores)/len(sch_scores), 3)}")
+    elif sum(sigmatismus_scores)/len(sigmatismus_scores) < 0.75:
+        print(f"{bcolors.WARNING}Überdurchschnittlich ungenaue Aussprache der Zischlaute "
+              f"(Lispeln = {list(Sprachfehler.SIGMATISMUS.keys())}  bzw. ['sch', 's', 'ch']). {bcolors.ENDC}")
+        print(f"Aufschlüsselung nach Laut (je größer, desto besser): \n S: {round(sum(s_scores)/len(s_scores), 3)} \n CH: {round(sum(ch_scores)/len(ch_scores), 3)} \n SCH: {round(sum(sch_scores)/len(sch_scores), 3)}")
 
-    if chitismus_occurences > 2:
-        if chitismus_counter / chitismus_occurences > 0.7:
-            print(f"{bcolors.FAIL}Auffällig ungenaue Aussprache der CH-Laute "
-                  f"(Chitismus = {list(Sprachfehler.CHITISMUS.keys())}).{bcolors.ENDC}")
-        elif chitismus_counter / chitismus_occurences > 0.4:
-            print(f"{bcolors.WARNING}Überdurchschnittlich ungenaue Aussprache der CH-Laute "
-                  f"(Chitismus = {list(Sprachfehler.CHITISMUS.keys())}). {bcolors.ENDC}")
 
     bewertung_des_scores = "Deine Aussprache ist "
     if overall_score > 0.95:
