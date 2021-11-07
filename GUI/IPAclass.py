@@ -94,6 +94,29 @@ class IPA:
         return textliste
 
     @staticmethod
+    def cut_abbreviations(textliste):
+        zusatz_i = 0
+        new_text_list = [""] * 2 * len(textliste)
+        for i in range(len(textliste)):
+            if not textliste[i].isalpha():
+                if textliste[i].endswith("cm"):
+                    new_text_list[i + zusatz_i] = textliste[i + zusatz_i][:-2]
+                    zusatz_i += 1
+                    new_text_list[i + zusatz_i] = "centimeter"
+                if textliste[i].endswith("m"):
+                    new_text_list[i + zusatz_i] = textliste[i + zusatz_i][:-1]
+                    zusatz_i += 1
+                    new_text_list[i + zusatz_i] = "meter"
+
+            else:
+                new_text_list[i + zusatz_i] = textliste[i]
+
+        while '' in new_text_list:
+            new_text_list.remove('')
+        return new_text_list
+
+
+    @staticmethod
     def zahl_zu_text(eingabe_zahl):  # Für Zahlen von 0-1.000.000
         """Substituiert eine Zahl mit dem alphabetischen Equivalent: 95 zu fünfundneunzig"""
         eingabe_zahl = int(eingabe_zahl)
@@ -155,6 +178,8 @@ class IPA:
         IPA_satz = []
         if textliste and type(textliste) is list:
             # Zahlen zu Text umformen, da Google sonst Zahlen in der Prediction ausgibt
+            textliste = IPA.zahl_zu_text_sortieren(textliste)
+            textliste = IPA.cut_abbreviations(textliste)
             textliste = IPA.zahl_zu_text_sortieren(textliste)
             for wort in textliste:
                 if len(wort) > 25:
