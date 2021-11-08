@@ -199,7 +199,7 @@ while True:
         break
     elif "_random_satz_" in event:
         if values["_DROPDOWN_"] == "zufälligen Satz":
-            with open(r"C:\Users\dakop\OneDrive\Aussprache Trainer\Random_saetze.txt", "r", encoding="utf-8-sig") as random_saetze:
+            with open("satze.txt", "r", encoding="utf-8-sig") as random_saetze:
                 lines = random_saetze.readlines()
                 if values["target"] in lines:
                     lines.remove(values["target"])
