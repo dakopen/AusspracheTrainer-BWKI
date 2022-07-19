@@ -2,7 +2,7 @@
 Der AusspracheTrainer analysiert mithilfe von künstlicher Intelligenz die Aussprache eines vor- oder eingegebenen Satzes. Er wurde in Zusammenarbeit mit der [logopädischen Praxis von Tina Hillebrecht](https://logopaedie-hillebrecht.de/ "logopaedie-hillebrecht.de") entwickelt. Als Input nimmt der AussprachteTrainer eine `.wav` Datei mit einer Samplerate von 48 kHz und er gibt in Textform mit farblichen Markierungen das Ergebnis aus.
 
 *Datenschutz: Ihre Audio-Datei wird an Google (über das speech-recognition-package) und IBM (über eine API) übermittelt. Mit der Benutzung der Software erklären Sie sich mit deren DSGVO einverstanden.*
-![Output](https://github.com/dakopen/AusspracheTrainer/blob/main/main/Example%20Output.png)
+![Output](https://github.com/dakopen/AusspracheTrainer-BWKI/blob/main/main/Example%20Output.png)
 ## Aufbau des Repositorys
 `Schema und Funktionsweise.PDF` &#8594; Bietet einen groben Überblick über die Funktionsweise des AusspracheTrainers, damit die Funktionen der einzelnen Komponenten besser verstanden werden.
 
